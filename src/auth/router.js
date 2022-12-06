@@ -1,17 +1,15 @@
 'use strict';
 
 const express = require('express');
-const { Users } = require('./models/index.js');
 const basicAuth = require('./middleware/basic.js');
+const { Users } = require('./models/index.js');
 
 const router = express.Router();
 
 const createUser = async (req, res) => {
   try {
-    console.log('req.body', req.body);
-    const record = await Users.beforeCreate(req.body);
-    console.log(record);
-    res.status(201).json({user: record});
+    const newUser = await Users.create(req.body);
+    res.status(201).json({user: newUser});
   } catch (e) {
     res.status(403).send('Error Creating User');
   }
